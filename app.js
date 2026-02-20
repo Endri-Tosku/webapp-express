@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT;
 
 // importo il middelware errori
 const notFound = require("./middlewares/notFound")
@@ -18,7 +18,7 @@ app.use(express.json());
 // app.use(express.json());
 
 // rotta di home
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("<h1>Rotta di home della APP dei film</h1>");
 });
 
