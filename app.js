@@ -8,13 +8,13 @@ const notFound = require("./middlewares/notFound")
 // importo il middelware errorif
 const errorsHandler = require("./middlewares/errorsHandler")
 
-// importiamo le rotte dei post
-// const postRoutes = require('./‎routes/post');
+// importiamo le rotte dei film
+const moviesRoutes = require('./‎routers/movieRouters');
 
 // attivazione cartella public per i file statici
 app.use(express.json());
 
-// middleware per leggere JSON (servirà dopo)
+// middleware per leggere JSON
 // app.use(express.json());
 
 // rotta di home
@@ -23,7 +23,7 @@ app.get("/api", (req, res) => {
 });
 
 // colleghiamo le rotte dei post
-// app.use('/posts', postRoutes);
+app.use('/api/movies', moviesRoutes);
 
 // middleware per endpoint non trovati
 app.use(notFound);
