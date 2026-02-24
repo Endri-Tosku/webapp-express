@@ -2,6 +2,14 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT;
 
+// importo il middleware cors
+const cors = require("cors");
+
+// middleware per il CORS
+app.use(cors({
+    origin: 'http://localhost:5173/'
+}));
+
 // importo il middelware errori
 const notFound = require("./middlewares/notFound")
 
