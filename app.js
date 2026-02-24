@@ -7,7 +7,7 @@ const cors = require("cors");
 
 // middleware per il CORS
 app.use(cors({
-    origin: 'http://localhost:5173/'
+    origin: 'http://localhost:5173'
 }));
 
 // importo il middelware errori
@@ -15,6 +15,12 @@ const notFound = require("./middlewares/notFound")
 
 // importo il middelware errorif
 const errorsHandler = require("./middlewares/errorsHandler")
+
+// import del middelware di gestione di path imgs
+const imagePathMiddleware = require("./middlewares/imagePath");
+
+// attivazioone middelware di gestione di path imgs
+app.use(imagePathMiddleware);
 
 // attivazione cartella public per i file statici
 app.use(express.static('public'));
