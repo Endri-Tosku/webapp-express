@@ -10,11 +10,20 @@ function index(req, res) {
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: 'Database query failed' });
 
+        // correzione delle immagini al nome del titolo
+        const titleToImage = {
+            "The Godfather": "the_godfather.jpg",
+            "Interstellar": "interstellar.jpg",
+            "Titanic": "titanic.jpg",
+            "The Matrix": "matrix.jpg",
+            "Inception": "inception.jpg"
+        };
+
         // creo una copia dei risultati con modifica path imgs
         const films = results.map(film => {
             return {
                 ...film,
-                image: req.imagePath + film.image
+                image: req.imagePath + titleToImage[film.title]
             }
         })
 
