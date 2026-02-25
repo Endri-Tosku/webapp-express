@@ -38,6 +38,8 @@ function show(req, res) {
 
     const movieSql = 'SELECT * FROM movies WHERE id = ?';
 
+    const reviewSql = 'SELECT * FROM reviews WHERE movie_id = ?';
+
     connection.query(movieSql, [id], (err, movieResults) => {
         if (err) return res.status(500).json({ error: 'Database query failed' });
 
@@ -50,16 +52,37 @@ function show(req, res) {
         // aggiungo path img dal middleware
         movie.image = req.imagePath + movie.image;
 
-        const reviewSql = 'SELECT * FROM reviews WHERE movie_id = ?';
-
         connection.query(reviewSql, [id], (err, reviewResults) => {
             if (err) return res.status(500).json({ error: 'Database query failed' });
 
-            movie.reviews = reviewResults;
+            // salviamo le reviews in una cost
+            const reviewsArr = reviewResults;
+
+            movie.reviews = reviewsArr;
 
             res.json(movie);
         });
     });
 }
 
-module.exports = { index, show };
+// funzione per lo store della review
+function storeReview(req, res) {
+
+    // recuperiamo id da param dinamico
+    const { id } = req.params;
+
+    // recuperiamo le info dal body della req
+    const { name, vote, text } = req.body;
+
+    // settiamo Sql di richiesta al DB
+    const sql = 'INSERT INTO reviews (text, name, vote, movie_id) VALUES (?, ?, ?, ?)';
+
+    // Eseguiamo la query
+    connection.query(sql, [text, name, vote, id], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        res.status(201);
+        res.json({ message: 'Review added', id: results.insertId });
+    });
+}
+
+module.exports = { index, show, storeReview };

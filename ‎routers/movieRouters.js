@@ -14,5 +14,8 @@ router.get('/', movieController.index); // ✔ corretto, usa movieController
 // SHOW: restituisce un singolo film e le sue recensioni
 router.get('/:id', movieController.show); // ✔ corretto, usa movieController
 
+// rotta di create recensione
+router.post('/:id/reviews', movieController.storeReview);
+
 // ESPORTA L'ISTANZA DI QUESTE ROTTE
 module.exports = router;
